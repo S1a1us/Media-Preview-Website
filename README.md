@@ -1,6 +1,6 @@
 # 🌟 | Introduction
 
-This is a Media-Preview-Website built using HTML, Tailwind CSS, and JS. It offers a clean and minimalistic design, providing users with a user-friendly interface to preview media content seamlessly. With its sleek and stylish design, this website is the perfect place for media lovers to immerse themselves in a world of high-quality content.
+This is a Media-Preview-Website built using HTML, Tailwind CSS, and JS. It offers a clean and minimalistic design, providing users with a user-friendly interface to preview media content seamlessly.
 
 # 📞 | Contact
 
