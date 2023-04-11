@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Media Preview Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css">
+    <style>
+      body {
+        background-color: #1E1E1E;
+        color: #FFFFFF;
+      }
+      .form-input {
+        background-color: #3B3B3B;
+        border-color: #3B3B3B;
+        color: #FFFFFF;
+      }
+      .bg-white {
+        background-color: #252525;
+      }
+      .shadow-md {
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+      }
+      .bg-blue-500 {
+        background-color: #5F7FFF;
+      }
+      .hover\:bg-blue-700:hover {
+        background-color: #3A5FFF;
+      }
+      .text-gray-700 {
+        color: #CFCFCF;
+      }
+      .preview-area {
+        background-color: #252525;
+        height: 500px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .media-container img, .media-container video {
+        max-height: 100%;
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+<main class="container mx-auto my-8 px-4">
+  <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" enctype="multipart/form-data" onsubmit="return previewMedia(event)">
+    <div class="mb-4">
+      <label class="block text-gray-700 font-bold mb-2" for="media-upload">
+        Upload Media Files
+      </label>
+      <input class="form-input block w-full" type="file" name="media-upload" id="media-upload">
+    </div>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
+      Preview Media
+    </button>
+  </form>
+  <div class="preview-area flex justify-center items-center rounded-md shadow-lg">
+    <div class="media-container"></div>
+  </div>
+</main>
+<script>
+  function previewMedia(event) {
+    event.preventDefault(); // prevent the form from submitting normally
+
+    const fileInput = document.querySelector('input[type="file"]');
+    const file = fileInput.files[0]; // get the first file from the input element
+
+    if (!file) {
+      return; // do nothing if no file was selected
+    }
+
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      const mediaPreview = document.createElement('div');
+
+      if (file.type.startsWith('image/')) {
+        const imagePreview = document.createElement('img');
+        imagePreview.src = reader.result;
+        imagePreview.alt = file.name;
+        imagePreview.classList.add('rounded-md'); // add rounded corners
+        mediaPreview.appendChild(imagePreview);
+      } else if (file.type.startsWith('video/')) {
+        const videoPreview = document.createElement('video');
+        videoPreview.src = reader.result;
+        videoPreview.controls = true;
+        videoPreview.autoplay = true;
+        videoPreview.loop = true;
+        videoPreview.muted = true;
+        mediaPreview.appendChild(videoPreview);
+      } else {
+        const mediaType = document.createElement('p');
+
+        mediaType.textContent = `Unsupported media type: ${file.type}`;
+        mediaPreview.appendChild(mediaType);
+      }
+
+      const previewArea = document.querySelector('.preview-area');
+      previewArea.innerHTML = ''; // clear any existing previews
+      previewArea.appendChild(mediaPreview);
+    });
+
+    reader.readAsDataURL(file); // read the contents of the file as a data URL
+  }
+</script>
